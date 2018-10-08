@@ -3,7 +3,7 @@
  
 require_once('SQLiteConnection.php');
  
-echo "step1";
+ echo "step1";
 $pdo = new SQLiteConnection();
 $db = $pdo->connect();
 echo "step2";

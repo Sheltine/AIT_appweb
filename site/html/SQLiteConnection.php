@@ -43,14 +43,15 @@ class SQLiteConnection {
         echo $login." ".$hash." ".$validity." ".$role;
     }
     
-    private function isUserInDb($login){
+    public function isUserInDb($login){
         $result = $this->pdo->query('SELECT login FROM users');
         foreach ($result as $val){
-        echo $val['login'];
+            echo $val['login'];
             if ($val['login'] === $login)
                 return true;
         }
         return false;
+
     }
 }
 
