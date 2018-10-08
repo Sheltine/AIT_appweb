@@ -34,21 +34,64 @@ class SQLiteConnection {
 
     }
     
-    public function modUser($login, $hash = NULL, $validity = NULL, $role = NULL){
+    public function modUserPassword($login, $hash){
         
-        if($role !== NULL){
-            
-        }
-            $role = "HAHA!";
-        echo $login." ".$hash." ".$validity." ".$role;
+         if(!$this->isUserInDb($login) || $hash === NULL)
+            return 0;
+        
+         $stmt = $this->pdo->prepare("UPDATE users SET hash=:hash 
+                                     WHERE login=:login;");
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':hash', $hash);
+
+        return $stmt->execute();                             
+    }
+    
+    public function modUserValidity($login, $validity){
+        
+         if(!$this->isUserInDb($login) || $validity === NULL)
+            return 0;
+        
+        $stmt = $this->pdo->prepare("UPDATE users SET validity=:validity 
+                                     WHERE login=:login;");
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':validity', $validity);
+
+        return $stmt->execute();                           
+    }
+    
+    public function modUserRole($login, $role){
+
+         if(!$this->isUserInDb($login) || $role === NULL)
+            return 0;
+        
+        $stmt = $this->pdo->prepare("UPDATE users SET role=:role 
+                                     WHERE login=:login;");
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':role', $role);
+
+        return $stmt->execute();                        
+    }
+    
+    public function delUser($login){
+    
+         if(!$this->isUserInDb($login))
+            return 0;
+         
+         $stmt = $this->pdo->prepare("DELETE FROM users WHERE login=:login;");
+         $stmt->bindParam(':login', $login);
+         
+         return $stmt->execute();
+         
     }
     
     public function isUserInDb($login){
         $result = $this->pdo->query('SELECT login FROM users');
         foreach ($result as $val){
-            echo $val['login'];
-            if ($val['login'] === $login)
+
+            if ($val['login'] === $login){
                 return true;
+            }
         }
         return false;
 

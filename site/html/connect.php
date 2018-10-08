@@ -13,8 +13,11 @@ else
     echo 'Whoops, could not connect to the SQLite database!';
     
     
-$ret = $pdo->addUser("nyahon2", "hashit", "true","1");
-echo "done adding user: ".$ret;
+//$ret = $pdo->addUser("nyahon23", "hashit", "true","1");
+//echo "done adding user: ".$ret;
 
-$ret = $pdo->modUser("nyahon2", "true","1");
+$ret = $pdo->modUserRole("nyahon2", 0);
+echo "\nRET: ".$ret;
+
+$pdo->delUser("nyahon23");
 ?>
