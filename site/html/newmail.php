@@ -7,9 +7,10 @@
     <body>
 
 <?php
-include_once("navbar.php");
 session_start();
 if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
+    include_once("navbar.php");
+
     ?>
         
         <div class="col-md-8 col-md-offset-2">

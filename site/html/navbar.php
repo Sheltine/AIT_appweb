@@ -1,6 +1,6 @@
 <?php 
 session_start();
-$isAdmin = ($_SESSION["role"] === 11 ? true : false);
+$isAdmin = ($_SESSION["role"] === "1" ? true : false);
 
 ?>
 <nav class="navbar navbar-inverse">
@@ -18,8 +18,8 @@ $isAdmin = ($_SESSION["role"] === 11 ? true : false);
                     <li><a href="#">Admin</a></li>
                     <?php
                 }
-                
                 ?>
+                <li><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
     </nav>
