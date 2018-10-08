@@ -20,4 +20,6 @@ $ret = $pdo->modUserRole("nyahon2", 0);
 echo "\nRET: ".$ret;
 
 $pdo->delUser("nyahon23");
+$ret = $pdo->getRole("nyahon");
+echo $ret;
 ?>
