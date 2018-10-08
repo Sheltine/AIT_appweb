@@ -73,6 +73,7 @@ class SQLiteConnection {
         return $stmt->execute();                        
     }
     
+    #CAREFUL BROTHER
     public function delUser($login){
     
          if(!$this->isUserInDb($login))
