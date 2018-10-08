@@ -10,8 +10,9 @@
 include_once("navbar.php");
 session_start();
 if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
+    $role = ($_SESSION["role"] === 1 ? "admin" : "collaborateur");
     ?>
-    <h1>Bonjour <?php echo $_SESSION["login"]; ?> !</h1>
+    <h1>Bonjour <?php echo $_SESSION["login"]; ?> ! Vous etes <?php echo $role ?>.</h1>
         <table class ="table">
             <thead>
                 <tr>

@@ -11,17 +11,21 @@ include_once("navbar.php");
 session_start();
 if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
     ?>
-        <h1>New mail</h1>
-        <form>
-            <div class="form-group">
-                <label>To</label>
-                <input type="email" class="form-control" value= "<?php echo $_POST["sendTo"] ?>">
-                <label>Subject</label>
-                <input type="textfield" class="form-control">
-                <label>Body</label>
-                <input type="textarea" class="form-control">
-            </div>
-        </form>
+        
+        <div class="col-md-8 col-md-offset-2">
+            <h1>New mail</h1>
+            <form>
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="email" class="form-control" value= "<?php echo $_POST["sendTo"] ?>">
+                    <label>Subject</label>
+                    <input type="textfield" class="form-control">
+                    <label>Body</label>
+                    <textarea class="rows=10 form-control"></textarea>
+                    <button type="submit" class="btn btn-default pull-right">Submit</button>
+                </div>
+            </form>
+        </div>
     <?php
     //session_unset();
     //session_destroy();
