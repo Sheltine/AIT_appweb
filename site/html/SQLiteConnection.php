@@ -97,6 +97,13 @@ class SQLiteConnection {
         return false;
 
     }
+    
+    public function getRole($login){
+         $stmt = $this->pdo->prepare("SELECT role FROM users WHERE login=:login;");
+         $stmt->bindParam(':login', $login);
+         
+         return $stmt->execute();
+    }
 }
 
 ?>
