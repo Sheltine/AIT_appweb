@@ -15,7 +15,7 @@ $isAdmin = ($_SESSION["role"] === "1" ? true : false);
                 <?php
                 if($isAdmin){
                     ?>
-                    <li><a href="#">Admin</a></li>
+                    <li><a href="manageUsers.php">Admin</a></li>
                     <?php
                 }
                 ?>

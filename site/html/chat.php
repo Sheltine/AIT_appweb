@@ -5,33 +5,33 @@
         <link rel="stylesheet" type="text/css" href="./css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">    </head>
     <body>
-
-<?php
-session_start();
-if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
-    include_once("navbar.php");
-
-    $role = ($isAdmin === true ? "admin" : "collaborateur");
-    ?>
-    <h1>Bonjour <?php echo $_SESSION["login"]; ?> ! Vous etes <?php echo $role ?>.</h1>
-        <table class ="table">
-            <thead>
-                <tr>
-                    <td>Date</td>
-                    <td>Sender</td>
-                    <td>Subject</td>
-                    <td><form action ="newmail.php" method ="post"><button type="submit" name="sendTo" value="nyahon@coucou.com">send</button></form></td>
-                </tr>
-            </thead>
-            <tr>
-                <td>
-            </tr>
-        </table>
-    <?php
-    //session_unset();
-    //session_destroy();
-}else{
-    echo "lol";
-} ?>
-</body>
+        <?php
+        session_start();
+        if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
+            include_once("navbar.php");
+            $role = ($isAdmin === true ? "admin" : "collaborateur");
+            ?>
+            <div class="col-md-offset-2">
+            <h1>Bonjour <?php echo $_SESSION["login"]; ?> ! Vous etes <?php echo $role ?>.</h1>
+                <table class ="table">
+                    <thead>
+                        <tr>
+                            <td>Date</td>
+                            <td>Sender</td>
+                            <td>Subject</td>
+                            <td><form action ="newmail.php" method ="post"><button type="submit" name="sendTo" value="nyahon@coucou.com">send</button></form></td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                    </tr>
+                </table>
+        </div>
+            <?php
+            //session_unset();
+            //session_destroy();
+        }else{
+            echo "lol";
+        } ?>
+    </body>
 </html>
