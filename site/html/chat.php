@@ -9,7 +9,15 @@
         session_start();
         if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
             include_once("navbar.php");
+            include_once("connect.php");
+
             $role = ($isAdmin === true ? "admin" : "collaborateur");
+       
+            $mails = $pdo->getUsersList();
+            echo $mails;
+            echo var_dump($mails);
+
+            
             ?>
             <div class="col-md-offset-2">
             <h1>Bonjour <?php echo $_SESSION["login"]; ?> ! Vous etes <?php echo $role ?>.</h1>
@@ -22,9 +30,12 @@
                             <td><form action ="newmail.php" method ="post"><button type="submit" name="sendTo" value="nyahon@coucou.com">send</button></form></td>
                         </tr>
                     </thead>
+                    <?php
+                    foreach($mails as $test):?>
                     <tr>
-                        <td>
-                    </tr>
+                        <td><?= $test["login"] ?></td>
+        </tr>
+        <?php endforeach; ?>
                 </table>
         </div>
             <?php

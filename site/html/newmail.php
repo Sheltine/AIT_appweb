@@ -12,7 +12,7 @@ if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
     include_once("navbar.php");
 
     ?>
-        
+    
         <div class="col-md-8 col-md-offset-2">
             <h1>New mail</h1>
             <form>

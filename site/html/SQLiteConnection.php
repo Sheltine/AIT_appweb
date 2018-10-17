@@ -33,6 +33,13 @@ class SQLiteConnection {
                                             VALUES ('$login', '$hash', '$validity', '$role');");
 
     }
+
+    public function addMail($date, $sender, $receiver, $subject, $corpus){
+            
+        return $this->pdo->exec("INSERT INTO messages (reception_time, sender, receiver, subject, corpus) 
+                                            VALUES ('$date', '$sender', '$receiver', '$subject', $corpus);");
+
+    }
     
     public function modUserPassword($login, $hash){
         
@@ -117,7 +124,40 @@ class SQLiteConnection {
       
      return $stmt->execute();
     }
-    
+
+    public function getUserMail($login){
+        $stmt = $this->pdo->query->prepare("SELECT * FROM messages WHERE receiver=:login");
+        $stmt->bindParam(':login', $login);
+
+        return $stmt->execute();
+    }
+    public function getUsersList(){
+        $index = 0;
+        $users = [];
+        $stmt = $this->pdo->prepare("SELECT * FROM users");
+        $stmt->execute();
+        //$stmt->fetch();
+        foreach ($stmt as $val){
+            $users[$index] = $val;
+            $index++;
+        }
+        return $users;
+   }
+
+   public function getUserById($id){
+    $index = 0;
+    $user = [];
+    $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id=:id");
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    //$stmt->fetch();
+    foreach ($stmt as $val){
+        $user[$index] = $val;
+        $index++;
+    }
+    return $user;
+}
 }
 
 ?>
+ 

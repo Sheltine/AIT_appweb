@@ -11,7 +11,7 @@ $isAdmin = ($_SESSION["role"] === "1" ? true : false);
                 <ul class="nav navbar-nav">
                 <li class="active"><a href="chat.php">Mail box</a></li>
                 <li><a href="newmail.php">New mail</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="profile.php">Profile</a></li>
                 <?php
                 if($isAdmin){
                     ?>
