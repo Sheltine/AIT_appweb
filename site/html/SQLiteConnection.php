@@ -42,11 +42,11 @@ class SQLiteConnection {
     }
     
     public function modUserPassword($login, $hash){
-        
+
          if(!$this->isUserInDb($login) || $hash === NULL)
             return 0;
-        
-         $stmt = $this->pdo->prepare("UPDATE users SET hash=:hash 
+                
+         $stmt = $this->pdo->prepare("UPDATE users SET password=:hash 
                                      WHERE login=:login;");
         $stmt->bindParam(':login', $login);
         $stmt->bindParam(':hash', $hash);
@@ -67,18 +67,24 @@ class SQLiteConnection {
         return $stmt->execute();                           
     }
     
-    public function modUserRole($login, $role){
+    public function modUser($login, $role, $validity, $newLogin){
 
          if(!$this->isUserInDb($login) || $role === NULL)
             return 0;
         
-        $stmt = $this->pdo->prepare("UPDATE users SET role=:role 
+        $stmt = $this->pdo->prepare("UPDATE users SET role=:role,
+                                                    login=:newLogin,
+                                                    validity=:validity
                                      WHERE login=:login;");
         $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':newLoing', $newLogin);
         $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':validity', $validity);
+
 
         return $stmt->execute();                        
     }
+
     
     #CAREFUL BROTHER
     public function delUser($login){
@@ -149,6 +155,18 @@ class SQLiteConnection {
      return $stmt->execute();
     }
 
+    public function checkLogin($login, $password){
+        $stmt = $this->pdo->prepare("SELECT password FROM users WHERE login=:login");
+        $stmt->bindParam(':login', $login);
+        $stmt->execute();
+        $val = $stmt->fetch();
+        if($val["password"] === $password){
+            return true;
+        }
+        return false;
+    }
+
+
     public function getUserMail($login){
         $index = 0;
         $mails = [];
@@ -191,18 +209,19 @@ class SQLiteConnection {
    }
 
    public function getUserById($id){
-    $index = 0;
-    $user = [];
-    $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id=:id");
-    $stmt->bindParam(':id', $id);
-    $stmt->execute();
-    //$stmt->fetch();
-    foreach ($stmt as $val){
-        $user[$index] = $val;
-        $index++;
+        $index = 0;
+        $user = [];
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id=:id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        //$stmt->fetch();
+        foreach ($stmt as $val){
+            $user[$index] = $val;
+            $index++;
+        }
+        return $user;
     }
-    return $user;
-}
+
 }
 
 ?>

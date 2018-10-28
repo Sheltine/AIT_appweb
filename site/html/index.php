@@ -8,8 +8,6 @@
     <body>
         <?php
         include_once 'connect.php';
-        session_unset();
-        session_destroy();
         ?>
         <div class="col-md-4 col-md-offset-4">
             <form method="post">
@@ -17,6 +15,9 @@
                     <h2>Login</h2>
                     <label>Username</label>
                     <input type="text" name="login" class="form-control">
+                    
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control"><br/>
                     <?php
                     if (isset($_POST["login"]) && !empty($_POST["login"])) {
                         if($pdo->isUserInDb($_POST["login"]) === false){
@@ -26,10 +27,8 @@
                                 </div>
                             <?php
                         }else{
-                            echo "</br>good</br>";
                             if(isset($_POST["password"]) && !empty($_POST["password"])){
-                                if(true/*verif password*/){
-                                    echo "</br>eeeeee</br>";
+                                if($pdo->checkLogin($_POST["login"], $_POST["password"])){
                                     session_start();
                                     $_SESSION["login"] = $_POST["login"];
                                     $_SESSION["password"] = $_POST["password"];
@@ -46,8 +45,6 @@
                         }
                     }
                     ?>
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control"><br/>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </div>
             </form>
@@ -69,7 +66,6 @@ while($it->valid()) {
 
     $it->next();
 }
-phpinfo();
 
 ?>
 
