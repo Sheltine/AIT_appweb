@@ -35,10 +35,8 @@ class SQLiteConnection {
     }
 
     public function addMail($date, $sender, $receiver, $subject, $corpus){
-            
         return $this->pdo->exec("INSERT INTO messages (reception_time, sender, receiver, subject, corpus) 
-                                            VALUES ('$date', '$sender', '$receiver', '$subject', $corpus);");
-
+                                            VALUES ('$date', '$sender', '$receiver', '$subject', '$corpus');");
     }
     
     public function modUserPassword($login, $hash){
@@ -67,23 +65,36 @@ class SQLiteConnection {
         return $stmt->execute();                           
     }
     
-    public function modUser($login, $role, $validity, $newLogin){
+    public function modUserRole($login, $role){
 
          if(!$this->isUserInDb($login) || $role === NULL)
             return 0;
         
-        $stmt = $this->pdo->prepare("UPDATE users SET role=:role,
-                                                    login=:newLogin,
-                                                    validity=:validity
+        $stmt = $this->pdo->prepare("UPDATE users SET role=:role 
                                      WHERE login=:login;");
         $stmt->bindParam(':login', $login);
-        $stmt->bindParam(':newLoing', $newLogin);
         $stmt->bindParam(':role', $role);
-        $stmt->bindParam(':validity', $validity);
-
 
         return $stmt->execute();                        
     }
+
+    public function modUser($login, $role, $validity, $newLogin){
+
+        if(!$this->isUserInDb($login) || $role === NULL)
+           return 0;
+       
+       $stmt = $this->pdo->prepare("UPDATE users SET role=:role,
+                                                   login=:newLogin,
+                                                   validity=:validity
+                                    WHERE login=:login;");
+       $stmt->bindParam(':login', $login);
+       $stmt->bindParam(':newLogin', $newLogin);
+       $stmt->bindParam(':role', $role);
+       $stmt->bindParam(':validity', $validity);
+
+
+       return $stmt->execute();                        
+   }
 
     
     #CAREFUL BROTHER
@@ -200,7 +211,6 @@ class SQLiteConnection {
         $users = [];
         $stmt = $this->pdo->prepare("SELECT * FROM users");
         $stmt->execute();
-        //$stmt->fetch();
         foreach ($stmt as $val){
             $users[$index] = $val;
             $index++;

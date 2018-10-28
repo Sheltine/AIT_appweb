@@ -18,7 +18,6 @@
             $role = ($isAdmin === true ? "admin" : "collaborateur");
        
             $mails = $pdo->getUserMail($_SESSION["login"]);
-
             
             ?>
             <div class="col-md-offset-2">
@@ -51,13 +50,18 @@
             <?php
 
             if(isset($_POST["delete"])){
-                
                 $pdo->delMail($_POST["delete"]);
+                ?>
+               <div class="row">
+                    <div class = "col-md-8 col-md-offset-2 alert alert-success">
+                        <p>Successfully deleted mail.</p>
+                    </div>
+            </div>
+                <?php
+            header("Refresh: 1;");
             }
             //session_unset();
             //session_destroy();
-        }else{
-            echo "lol";
         } ?>
     </body>
 </html>

@@ -57,9 +57,9 @@
                     }else{
                         $pdo->modUserPassword($_SESSION["login"], $_POST["newpw"]);
                         ?>
-                                <div class = "alert alert-success">
-                                    <p>Successfully changed youre password</p>
-                                </div>
+                        <div class = "alert alert-success">
+                            <p>Successfully changed youre password</p>
+                        </div>
                     <?php  
                     }
                 

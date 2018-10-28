@@ -18,8 +18,9 @@
         $selected_id = -1;
         $users = $pdo->getUsersList();
         ?>
-        <div class="col-md-4 col-md-offset-1">
-            <button class="btn btn-success pull-right">Add</button>
+        <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form action="newuser.php"><button class="btn btn-success pull-right">Add</button></form>
             <table class="table">
                 <h1>Manage users</h1>
                 <thead>
@@ -34,68 +35,28 @@
                     foreach($users as $user):?>
                     <tr>
                     <td> <input type="text" name="lname" value="<?= $user["login"] ?>" disabled></td>
-                    <td><form action="user.php?userId=<?= $user["id"]?>" method="post"><button class="btn btn-default" type="submit" name="id" value="<?= $user["id"] ?>">Edit</button></form></td>
-                        <td><button class="btn btn-danger">Delete</button></td>
+                    <td><form action="user.php?userId=<?=$user["id"]?>" method="post"><button class="btn btn-default" type="submit" name="id" value="<?=$user["id"]?>">Edit</button></form></td>
+                    <td><form method="post"><button class="btn btn-danger" type="submit" value="<?=$user["login"]?>" name="delete">Delete</button></form></td>
                     </tr>
                     <?php endforeach; ?>
-                
-                <!--
-                    <tr>
-                        <td> <input type="text" name="lname" value="Nyahon" disabled></td>
-                        <td>•••••</td>
-                        <td>Active</td>
-                        <td>Admin</td>
-                        <td><button class="btn btn-default" id="2">Edit</button></td>
-                        <td><button class="btn btn-danger">Delete</button></td>
-                        <td><button class="btn btn-success" method="post" value="selected_id">Save</button></td>
-
-                    </tr>
-                 
-                    <tr id="demo" class="collapse">
-                        <td>Nyahon</td>
-                        <td>•••••</td>
-                        <td>Active</td>
-                        <td>Admin</td>
-                        <td><button class="btn btn-default" data-toggle="collapse" data-target="#demo">Edit</button></td>
-                        <td><button class="btn btn-danger">Delete</button></td>
-                    </tr>
-                    
-                    <tr>
-                        <td>loul</td>
-                        <td>•••••</td>
-                        <td>Active</td>
-                        <td>Admin</td>
-                        <td><button class="btn btn-default" data-toggle="collapse" data-target="#demo">Edit</button></td>
-                        <td><button class="btn btn-danger">Delete</button></td>-->
-                    </tr>
                 </tbody>
-                
             </table>
         </div>
-        
-        <?php if(isset($_POST['id'])){
-            $userInfo = $pdo->getUserById($_POST['id']);
-            ?>
-        <div  class="col-md-4 col-md-offset-2">
-            <h1>Edit</h1>
+    </div>
+        <?php 
+            if(isset($_POST["delete"])){
+               $pdo->delUser($_POST["delete"]);
+               ?>
+               <div class="row">
+                    <div class = "col-md-4 col-md-offset-4 alert alert-success">
+                        <p>Successfully deleted user.</p>
+                    </div>
+            </div>
                 <?php
-                    foreach($userInfo as $info):?>
-                    <table class="table">
-                        <tr><td><label>Login </label></td><td><input type="text" name="lname" value="<?= $info["login"] ?>"></td></tr><br/>
-                        <tr><td><label>Password </label></td><td><input type="text" name="lname" value="<?= $info["password"] ?>"></td></tr><br/>
-                        <tr><td><label>Role </label></td><td><input type="text" name="lname" value="<?= $info["role"] ?>"></td></tr><br/>
-                        <tr><td><label>Validity </label></td><td><input type="text" name="lname" value="<?= $info["validity"] ?>"></td></tr><br/>
-                        <tr><td><label>Delete </label></td><td><form method="POST"><button  class="btn btn-danger" name="delete" value="<?= $info['id']?>">Delete</button></form></td></tr>
-                    </table>
-                    <?php endforeach; ?>
-        <?php
-     }
-     if(isset($_POST["delete"])){
-        ?><div>Are you sure you want to delete <?= $pdo->getUserById($_POST["delete"])[0]["login"] ?>?</div>
-            <?php
-     }
-     ?>
-        </div>
+            header("Refresh: 1; url=manageUsers.php");
+        }
+        ?>
+
         <?php
             }
         ?>

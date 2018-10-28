@@ -31,10 +31,10 @@ if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
         $subj = "";
     }
     ?>
-    
+        <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h1>New mail</h1>
-            <form action="chat.php" method="post">
+            <form  method="post">
                 <div class="form-group">
                     <label>To</label>
                     <input type="textfield" name="mailReceiver" class="form-control" value= "<?= $sender ?>">
@@ -46,16 +46,32 @@ if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
                 </div>
             </form>
         </div>
+</div>
     <?php
 
     if(isset($_POST["sendMail"])){
-        $pdo->addMail(date("d-m-Y"), $_SESSION["login"], $_POST["mailReceiver"], $_POST["mailSubject"], $_POST["mailCorpus"]);
+        if($pdo->isUserInDb($_POST["mailReceiver"])){
+                    $pdo->addMail(date("d-m-Y"), $_SESSION["login"], $_POST["mailReceiver"], $_POST["mailSubject"], $_POST["mailCorpus"]); ?>
+                    <div class="row">
+                        <div class = "alert alert-success col-md-8 col-md-offset-2">
+                            <p>Successfully sent mail.</p>
+                        </div>
+                    </div>
+        <?php
+            header("Refresh: 1; url=chat.php");
+
+        }else{
+            ?>
+            <div class="row">
+                <div class = "alert alert-danger col-md-8 col-md-offset-2">
+                    <p>This user doesn't exist.</p>
+                </div>
+            </div> <?php
+        }
     }
 
     //session_unset();
     //session_destroy();
-}else{
-    echo "lol";
 } ?>
 </body>
 </html>

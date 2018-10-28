@@ -32,7 +32,7 @@
             <h2>Information concerning <?= $uLogin ?></h2>
         </div>
             <div class="col-md-4">
-            <form>
+            <form method = post>
                     <h2>Change user info</h2>
                     <table class="table">
                         <tr><td><label>Login </label></td><td><input type="text" name="login" value="<?= $uLogin ?>"></td></tr><br/>
@@ -47,35 +47,37 @@
                         </td></tr><br/>
                         <tr>
                         <td>
-                            <form method="POST"><button  class="btn btn-danger pull-left" name="delete" value="<?= $info['id']?>">Delete</button></form>
-                            <form method="POST"><button  class="btn btn-success pull-right" name="saveInfo" value="<?= $info['id']?>">Save</button></form>
+                            <button  class="btn btn-danger pull-left" name="delete">Delete</button>
+                            <button  class="btn btn-success pull-right" name="saveInfo">Save</button>
                         </td></tr>
                     </table>
             </form>
             <?php
                 if(isset($_POST["saveInfo"])){
-                    if($pdo->checkLogin($_SESSION["login"], $_POST["yourpw"]) == false){
+                    if($_POST["login"] == "" || $_POST["role"] == "" || $_POST["validity"] == ""){
                         ?>
-                                <div class = "alert alert-danger">
-                                    <p>Wrong password.</p>
-                                </div>
-                    <?php  
-                    }else if($_POST["newpw"] != $_POST["newpw2"]){
+                            <div class = "alert alert-danger">
+                                <p>Cannot send empty fields.</p>
+                            </div>
+                        <?php
+                    }else if(($_POST["login"] != $uLogin) && ($pdo->isUserInDb($_POST["login"])) == true){
                         ?>
-                                <div class = "alert alert-danger">
-                                    <p>New passwords are not matching.</p>
-                                </div>
-                        <?php  
+                            <div class = "alert alert-danger">
+                                <p>This username already exists, please choose another one.</p>
+                            </div>
+                        <?php
                     }else{
-                        $pdo->modUserPassword($uLogin, $_POST["newpw"]);
+                        echo $uLogin;
+                        echo $_POST["role"];
+                        echo $_POST["validity"];
+                        echo $_POST["login"];
+                        $pdo->modUser($uLogin, $_POST["role"], $_POST["validity"], $_POST["login"]);
                         ?>
-                                <div class = "alert alert-success">
-                                    <p>Successfully changed youre password</p>
-                                </div>
-                    <?php  
+                            <div class = "alert alert-success">
+                                <p>Successfully updated user.</p>
+                            </div>
+                        <?php
                     }
-                
-                
                 }// fin if isset change
             ?>
         </div>
