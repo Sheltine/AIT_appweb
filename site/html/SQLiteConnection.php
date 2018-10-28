@@ -92,12 +92,36 @@ class SQLiteConnection {
          return $stmt->execute();
          
     }
+
+    public function delMail($id){
+    
+        if(!$this->isMailInDb($id))
+           return 0;
+        
+        $stmt = $this->pdo->prepare("DELETE FROM messages WHERE id=:id;");
+        $stmt->bindParam(':id', $id);
+        
+        return $stmt->execute();
+        
+   }
     
     public function isUserInDb($login){
         $result = $this->pdo->query('SELECT login FROM users');
         foreach ($result as $val){
 
             if ($val['login'] === $login){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public function isMailInDb($id){
+        $result = $this->pdo->query('SELECT id FROM messages');
+        foreach ($result as $val){
+
+            if ($val['id'] === $id){
                 return true;
             }
         }
@@ -126,11 +150,33 @@ class SQLiteConnection {
     }
 
     public function getUserMail($login){
-        $stmt = $this->pdo->query->prepare("SELECT * FROM messages WHERE receiver=:login");
+        $index = 0;
+        $mails = [];
+        $stmt = $this->pdo->prepare("SELECT * FROM messages WHERE receiver=:login");
         $stmt->bindParam(':login', $login);
-
-        return $stmt->execute();
+        $stmt->execute();
+        foreach($stmt as $val){
+            $mails[$index] = $val;
+            $index++;
+        }
+        return $mails;
     }
+
+    public function getMailById($id){
+        $index = 0;
+        $mail = [];
+        $stmt = $this->pdo->prepare("SELECT * FROM messages WHERE id=:id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        //$stmt->fetch();
+        foreach ($stmt as $val){
+            $mail[$index] = $val;
+            $index++;
+        }
+        return $mail;
+    }
+
+
     public function getUsersList(){
         $index = 0;
         $users = [];

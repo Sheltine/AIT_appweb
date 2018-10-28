@@ -11,11 +11,13 @@
             include_once("navbar.php");
             include_once("connect.php");
 
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            error_reporting(E_ALL);
+
             $role = ($isAdmin === true ? "admin" : "collaborateur");
        
-            $mails = $pdo->getUsersList();
-            echo $mails;
-            echo var_dump($mails);
+            $mails = $pdo->getUserMail($_SESSION["login"]);
 
             
             ?>
@@ -27,18 +29,31 @@
                             <td>Date</td>
                             <td>Sender</td>
                             <td>Subject</td>
-                            <td><form action ="newmail.php" method ="post"><button type="submit" name="sendTo" value="nyahon@coucou.com">send</button></form></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </thead>
                     <?php
-                    foreach($mails as $test):?>
+                    foreach($mails as $mail):?>
                     <tr>
-                        <td><?= $test["login"] ?></td>
-        </tr>
+                        <td><?= $mail["reception_time"] ?></td>
+                        <td><a href="newmail.php?send=<?= $mail["sender"]?>"> <?= $mail["sender"] ?></a></td>
+                        <td><?= $mail["subject"] ?></td>
+                        <td><form action ="readMail.php" method ="post"><button class="btn btn-default" type="submit" name="mailId" value="<?= $mail["id"]?>">Read</button></form></td>
+                        <td><form method="post" action="newmail.php?send=<?=$mail["sender"]?>"><button class="btn btn-default" type="submit" name="subject" value="<?=$mail["subject"]?>" class="btn btn-default pull-right">Reply</button></form></td>
+                        <td><form method="post"><button class="btn btn-danger" type="submit" name="delete" value="<?= $mail["id"]?>">Delete</button></form></td>
+
+                    </tr>
         <?php endforeach; ?>
                 </table>
         </div>
             <?php
+
+            if(isset($_POST["delete"])){
+                
+                $pdo->delMail($_POST["delete"]);
+            }
             //session_unset();
             //session_destroy();
         }else{

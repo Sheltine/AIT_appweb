@@ -34,7 +34,7 @@
                     foreach($users as $user):?>
                     <tr>
                     <td> <input type="text" name="lname" value="<?= $user["login"] ?>" disabled></td>
-                    <td><form method="POST"><button class="btn btn-default" type="submit" name="id" value="<?= $user["id"] ?>">Edit</button></form></td>
+                    <td><form action="user.php" method="post"><button class="btn btn-default" type="submit" name="id" value="<?= $user["id"] ?>">Edit</button></form></td>
                         <td><button class="btn btn-danger">Delete</button></td>
                     </tr>
                     <?php endforeach; ?>
@@ -72,6 +72,7 @@
                 
             </table>
         </div>
+        
         <?php if(isset($_POST['id'])){
             $userInfo = $pdo->getUserById($_POST['id']);
             ?>
