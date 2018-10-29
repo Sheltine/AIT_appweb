@@ -20,7 +20,7 @@ if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
                 <div class="form-group">
                 <?php
                     foreach($mailInfo as $info):?>
-                    <form method="post" class="btn btn-danger pull-right">Delete</button></form>
+                    <form method="post"><button class="btn btn-danger pull-right" type="submit" name="delete" value="<?= $info["id"]?>">Delete</button></form>
                     <form method="post" action="newmail.php?send=<?=$info["sender"]?>"><button type="submit" name="subject" value="<?=$info["subject"]?>" class="btn btn-default pull-right">Reply</button></form><br/>
                     <label>From</label>
                     <input type="textfield" class="form-control" value="<?= $info["sender"]?>" disabled>
@@ -32,13 +32,22 @@ if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
                 </div>
             
         </div>
+        <?php
 
+            if(isset($_POST["delete"])){
+                $pdo->delMail($_POST["delete"]);
+                ?>
+               <div class="row">
+                    <div class = "col-md-8 col-md-offset-2 alert alert-success">
+                        <p>Successfully deleted mail.</p>
+                    </div>
+            </div>
+                <?php
+            header("Refresh: 1; url=chat.php");
+            }
 
-    <?php
     //session_unset();
     //session_destroy();
-}else{
-    echo "lol";
 } ?>
 </body>
 </html>

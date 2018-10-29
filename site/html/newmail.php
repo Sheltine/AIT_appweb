@@ -14,10 +14,6 @@ if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
     include_once("navbar.php");
     include_once("connect.php");
 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
     if(isset($_GET["send"])){
         $sender = ($_GET["send"]);
     }else{

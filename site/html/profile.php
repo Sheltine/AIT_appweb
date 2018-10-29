@@ -8,9 +8,6 @@
         <?php
         session_start();
         if(isset($_SESSION["login"]) && isset($_SESSION["password"])){
-            ini_set('display_errors', 1);
-            ini_set('display_startup_errors', 1);
-            error_reporting(E_ALL);
             include_once("navbar.php");
             include_once("connect.php");
         ?>
