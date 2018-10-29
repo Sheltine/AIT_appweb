@@ -29,7 +29,7 @@
                         }else{
                             if(isset($_POST["password"]) && !empty($_POST["password"])){
                                 if($pdo->checkLogin($_POST["login"], $_POST["password"])){
-                                    if($pdo->getValidity([$_POST["login"]])){
+                                    if($pdo->getValidity($_POST["login"]) == "true"){
                                         session_start();
                                         $_SESSION["login"] = $_POST["login"];
                                         $_SESSION["password"] = $_POST["password"];
