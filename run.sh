@@ -1,4 +1,4 @@
-chmod -R a+w site/database-R s
+chmod -R a+w site/databases
 cd site/databases
 sqlite3 database.sqlite < database_users_base_demo.sql
 sqlite3 database.sqlite < database_messages_base_demo.sql
