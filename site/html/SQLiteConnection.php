@@ -152,18 +152,17 @@ class SQLiteConnection {
          $ret = $stmt->execute();
          $val = $stmt->fetch();
 
-         echo "<br/> getRole ".$val['role']."<br/>";
          
          return $val['role'];
     }
     
     public function getValidity($login){
     
-     $q= $this->pdo->query("SELECT validity FROM users WHERE login=$login");
     $stmt = $this->pdo->prepare("SELECT validity FROM users WHERE login=:login");
      $stmt->bindParam(':login', $login);
-      
-     return $stmt->execute();
+     $ret = $stmt->execute();
+     $val = $stmt->fetch();
+     return $val['validity'];
     }
 
     public function checkLogin($login, $password){

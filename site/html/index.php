@@ -29,11 +29,19 @@
                         }else{
                             if(isset($_POST["password"]) && !empty($_POST["password"])){
                                 if($pdo->checkLogin($_POST["login"], $_POST["password"])){
-                                    session_start();
-                                    $_SESSION["login"] = $_POST["login"];
-                                    $_SESSION["password"] = $_POST["password"];
-                                    $_SESSION["role"] = $pdo->getRole($_POST["login"]);
-                                    header("Location:chat.php");
+                                    if($pdo->getValidity([$_POST["login"]])){
+                                        session_start();
+                                        $_SESSION["login"] = $_POST["login"];
+                                        $_SESSION["password"] = $_POST["password"];
+                                        $_SESSION["role"] = $pdo->getRole($_POST["login"]);
+                                        header("Location:chat.php");
+                                    }else{
+                                        ?>
+                                            <div class = "alert alert-danger">
+                                                <p>Your account is not valid anymore.</p>
+                                            </div>
+                                        <?php
+                                    }
                                 }else{
                                 ?>
                                 <div class = "alert alert-danger">
@@ -49,25 +57,6 @@
                 </div>
             </form>
         </div>        
-        <?php
-
-$directory = '.';
-
-$it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
-
-while($it->valid()) {
-
-    if (!$it->isDot()) {
-
-        echo 'SubPathName: ' . $it->getSubPathName() . "\n";
-        echo 'SubPath:     ' . $it->getSubPath() . "\n";
-        echo 'Key:         ' . $it->key() . "\n\n";
-    }
-
-    $it->next();
-}
-
-?>
-
+        
     </body>
 </html>
