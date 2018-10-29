@@ -7,5 +7,5 @@ Pour lancer l'application, il faut exécuter _./run.sh_. Ce script devrait:
 - Réinitialiser la base de données  
 - Populer la base de données avec des valeurs  
 Vous pouvez ensuite ouvrir un navigateur à l'adresse _localhost:8080_ et l'application devrait fonctionner! Vous pouvez vous connecter avec ces identifiants:  
-Login: nyahon  
-Password: loul
+Login: Mr_rubinstein  
+Password: Mr_rubinstein
