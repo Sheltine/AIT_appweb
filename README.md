@@ -36,6 +36,8 @@ Marche à suivre :
 4. envoyez la requête répétée 
 5. voilà vous avez supprimé un message qui peut ne pas être le vôte.
 
+Fonctionne aussi avec le Read
+
 ### Non sécurisation des méthodes d'administration
 
 Marche à suivre : 
@@ -52,30 +54,10 @@ On peut aussi imaginer le scénario ou la requête est récupére via une écout
 
 
 
-#### injection SQL Login
+#### Tester brute force avec burp
 
-- Sur la page de login dans le champs Username mettre un username d'un administrateur et dans le champ password mettre 
+Limitation essais
 
-`1"or true`
+Tester CSRF
 
-1"or true or "
-
-Cela nécéssite de connaitre le nom d'un utilisateur par exemple un administrateur
-
-**Explications**
-
-```php
-public function checkLogin($login, $password){
-    $stmt = $this->pdo->prepare("SELECT password FROM users WHERE login=:login");
-    $stmt->bindParam(':login', $login);
-    $stmt->execute();
-    $val = $stmt->fetch();
-    if($val["password"] === $password){
-        return true;
-    }
-    return false;
-}
-```
-
-Lors du test du if, il vérifie si le password de la base de donnée correspond au password entré et ici on demande si il est égale à 1, ce qui ne sera surement pas le cas et après on lui dit "or true".
-
+Politique de mot de passe
